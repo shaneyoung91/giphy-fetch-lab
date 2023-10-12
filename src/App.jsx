@@ -1,33 +1,39 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import React, { useState } from 'react';
+import SearchBar from './components/SearchBar/SearchBar';
+import GifList from './components/GifList/GifList';
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [data, setData] = useState(null);
 
+  const fetchData = async (userInput) => {
+    const result = await fetchDataFromAPI(userInput);
+    setData(result);
+  }
+
+  async function fetchDataFromAPI(userInput) {
+    try {
+        const apiKey = import.meta.env.VITE_API_KEY;
+        const apiURL = `https://api.giphy.com/v1/gifs/search?api_key=${apiKey}&limit=8&q=${userInput}`;
+        const response = await fetch(apiURL);
+        
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        
+        const data = await response.json();
+        return data.data;
+    } catch (error) {
+        console.error('Error fetching data:', error);
+    }
+}
+  
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <h1>GIPHY Fetch Lab</h1>
+      <SearchBar fetchData={fetchData} />
+      <br/>
+      <GifList data={data} />
     </>
   )
 }
