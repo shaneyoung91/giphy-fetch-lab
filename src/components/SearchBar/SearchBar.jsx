@@ -1,5 +1,6 @@
 import React from "react";
 import { useState } from "react";
+import './SearchBar.css'
 
 export default function SearchBar({fetchData}) {
     const [inputText, setInputText] = useState('');
@@ -15,14 +16,14 @@ export default function SearchBar({fetchData}) {
 
     return (
         <>
-            <h2>Search Bar</h2>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} className="form">
                 <input
                     type="text"
                     placeholder="Enter search term here..."
                     value={inputText}
                     onChange={handleInputChange}
                 />
+                &nbsp; &nbsp;
                 <button type="submit">SEARCH</button>
             </form>
         </>

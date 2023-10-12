@@ -30,8 +30,10 @@ function App() {
   
   return (
     <>
-      <h1>GIPHY Fetch Lab</h1>
+      <h1 className='title'>GIPHY Fetch Lab</h1>
+      <br/>
       <SearchBar fetchData={fetchData} />
+      <br/>
       <br/>
       <GifList data={data} />
     </>
